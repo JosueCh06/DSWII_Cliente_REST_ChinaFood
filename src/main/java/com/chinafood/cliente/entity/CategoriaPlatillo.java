@@ -5,6 +5,11 @@ public class CategoriaPlatillo {
 	private int idCategoria;
 	private String descripcionCategoria;
 	
+	public CategoriaPlatillo() {
+	}
+	public CategoriaPlatillo(int idCategoria) {
+		this.idCategoria = idCategoria;
+	}
 	public int getIdCategoria() {
 		return idCategoria;
 	}

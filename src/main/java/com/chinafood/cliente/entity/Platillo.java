@@ -38,4 +38,10 @@ public class Platillo {
 	public void setLinkImagen(String linkImagen) {
 		this.linkImagen = linkImagen;
 	}
+	public Platillo() {
+		
+	}
+	public Platillo(int idPlatillo) {
+		this.idPlatillo = idPlatillo;
+	}
 }
