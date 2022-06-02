@@ -1,369 +1,379 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Platillo</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<link rel="stylesheet" th:href="@{/resources/datepicker/bootstrap-datepicker.css}">
-<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.css}">
-<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.min.css}"> 
 
-<style>
-	.modal-header, h4, .close {
-		background-color: #286090;
-		color: white !important;
-		text-align: center;
-		font-size: 20px;
-	}
-	.help-block{
-	 color: red;
-	 /*display: none;*/
-	}
-	.form-group.has-error .form-control-label {
-	  color: red;
-	}
-	.form-group.has-error .form-control {
-	  border: 1px solid red;
-	  box-shadow: 0 0 0 0.2rem rgba(250, 16, 0, 0.18);
-	}
-	
-	.alertify .ajs-dialog {
-	    top: 50%;
-	    transform: translateY(-50%);
-	    margin: auto;
-	}
-	
-	.ajs-header{
-		background-color: #286090 !important;
-		color: white !important;
-		/*text-align: center;*/
-		font-size: 18px;
-		font-weight: bold;
-	}
-	.ajs-ok{
-		color: #fff;
-	    background-color: #007bff;
-	    border-color: #007bff;
-	}
-	.ajs-cancel{
-		color: #fff;
-	    background-color: #dc3545;
-	    border-color: #dc3545;
-	}
-	.btn-primary{
-	background-color: #286090 !important;
-	}
-	.dataTables_length, .dataTables_info{
-		display: none;
-	}
-	.modal-lg, .modal-xl {
-		max-width: 900px;
-		max-height: 800px;
-	}
-	
-	.form-control-feedback2 {
-	  margin:1px;
-	  position: absolute;
-	  padding: 10px;
-	  pointer-events: none;
-	  background-color: #e9ecef;
-	  border-style: none;
-	}
-	.form-control-feedback3 {
-	  margin:1px;
-	  position: absolute;
-	  margin-left:225px;
-	  padding: 10px;
-	  pointer-events: none;
-	  background-color: #e9ecef;
-	  border-style: none;
-	}
-	.form-control {
-	  padding-left: 40px!important;
-	}
-	/*.toast-succes{
+<head>
+	<meta charset="UTF-8">
+	<title>Platillo</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+		integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	<link rel="stylesheet" th:href="@{/resources/datepicker/bootstrap-datepicker.css}">
+	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.css}">
+	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.min.css}">
+
+	<style>
+		.modal-header,
+		h4,
+		.close {
+			background-color: #286090;
+			color: white !important;
+			text-align: center;
+			font-size: 20px;
+		}
+
+		.help-block {
+			color: red;
+			/*display: none;*/
+		}
+
+		.form-group.has-error .form-control-label {
+			color: red;
+		}
+
+		.form-group.has-error .form-control {
+			border: 1px solid red;
+			box-shadow: 0 0 0 0.2rem rgba(250, 16, 0, 0.18);
+		}
+
+		.alertify .ajs-dialog {
+			top: 50%;
+			transform: translateY(-50%);
+			margin: auto;
+		}
+
+		.ajs-header {
+			background-color: #286090 !important;
+			color: white !important;
+			/*text-align: center;*/
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		.ajs-ok {
+			color: #fff;
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+
+		.ajs-cancel {
+			color: #fff;
+			background-color: #dc3545;
+			border-color: #dc3545;
+		}
+
+		.btn-primary {
+			background-color: #286090 !important;
+		}
+
+		.dataTables_length,
+		.dataTables_info {
+			display: none;
+		}
+
+		.modal-lg,
+		.modal-xl {
+			max-width: 900px;
+			max-height: 800px;
+		}
+
+		.form-control-feedback2 {
+			margin: 1px;
+			position: absolute;
+			padding: 10px;
+			pointer-events: none;
+			background-color: #e9ecef;
+			border-style: none;
+		}
+
+		.form-control-feedback3 {
+			margin: 1px;
+			position: absolute;
+			margin-left: 225px;
+			padding: 10px;
+			pointer-events: none;
+			background-color: #e9ecef;
+			border-style: none;
+		}
+
+		.form-control {
+			padding-left: 40px !important;
+		}
+
+		/*.toast-succes{
 		width: 120px;
 	}*/
-</style> 
+	</style>
 </head>
+
 <body>
 	<div class="container">
-		
-			<h3 class="text-center mt-4">LISTA DE PLATILLOS</h3>
-			
-			<button type="button" class="btn btn-primary mt-5" data-toggle="modal" data-target="#modalPlatillo" id="btn-nuevo">
-			 <i class="far fa-file"></i> Nuevo Platillo
-			</button>
-			<div class=" mt-2">
-	
-				<table class="table table-striped table-bordered mt-5" id="tableMedicamentos">
-							  <thead>
-							   <tr>
-					                <th>Código</th>
-					                <th>Imágen</th>
-					                <th>Platillo</th>
-					                <th>Precio</th>
-					                <th>Categoria</th>
-					                <th></th>
-					                <th></th>
-					            </tr>
-							  </thead>
-							  <tbody>
-								<tr th:each="bean:${platillos}">
-							      <td th:text="${bean.idPlatillo}"></td >
-							      <td th:text="${bean.linkImagen}"></td >
-							      <td th:text="${bean.descripcion}"></td >
-							      <td th:text="${bean.precio}"></td >
-							      <td th:text="${bean.categoria.descripcionCategoria}"></td >
-							      <td><a class="btn btn-info btn-editar" data-toggle="modal" data-target="#modalPlatillo"><i class="far fa-edit"></i></a></td>
-							      <td><a class="btn btn-danger btn-eliminar"><i class="far fa-trash-alt"></i></a></td>
-							    </tr >  
-							  </tbody>
-				</table>
-			</div>
-			<!-- begin #modal-dialog : MODAL platillo-->
-			<div class="modal fade" id="modalPlatillo" data-backdrop="static" 
-							data-keyboard="false" tabindex="-1" 
-							aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered modal-login modal-lg" >					
-							<div class="modal-content">
-								<div class="modal-header bg-blue-darker">
-									<h4 class="modal-title text-white text-center">Formulario: Platillo</h4>
-								</div>
-								<div class="modal-body">
-									<form method="POST" id="idRegistra" th:action="@{/platillo/guardar}" enctype="multipart/form-data">	
-										<input type="hidden" id="idIdPlatillo" name="codigo" value="0" >
-										<div class="container">
-											<div class="row">
-												<div class="form-group has-feedback col-md-12">
-														<label for="exampleInputEmail1"><b>Descripcion</b></label><br>		
-														<i class="fas fa-file-signature form-control-feedback2"></i>	
-														<input type="text" class="form-control form-margin" id="idDescripcion" placeholder="Ingresar descripcion" name="descripcion">																										
-												</div>
-											
-												<div class="form-group has-feedback col-md-6">
-													<label for="exampleInputEmail1"><b>Precio</b></label><br>	
-													<i class="fas fa-pen-fancy form-control-feedback2"></i>
-													<input type="text" class="form-control form-margin" id="idPrecio" placeholder="Ingresar precio" name="precio" >	
-												</div>
-											
-												 <div class="form-group has-feedback col-md-6">	
-														<label for="exampleInputEmail1"><b>Categoria</b></label><br>
-												        <i class="fas fa-prescription-bottle-alt form-control-feedback2"></i>
-													    <select class="form-control form-margin" name="categoria" id="idCategoria">
-													      <option value=" " >[Seleccione Categoria]</option>
-													      <option th:each="bean:${categorias}"     
-													      		th:utext="${bean.descripcionCategoria}"
-													      		th:value="${bean.idCategoria}"/>
-													    </select>
-												 </div>	
-												 
-												 <div class="form-group mb-3">
-												  <label for="formFile" class="form-label"><b>Subir imagen (JPG o PNG)</b></label>
-												  <input class="form-control" name="imagen" id="idImagen" type="file" accept=".png, .jpg, .jpeg" required="required" >
-												</div>
-												 
-												 
-											</div>
-										</div>								
-										<div class="col-md-12 text-center mt-4"> 										
-											<button type="submit" id="Guardar" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
-											<button type="button" id="btn-cerrar" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-undo-alt"></i> Cancelar</button>
-										</div> 																								
-									</form>
+
+		<h3 class="text-center mt-4">LISTA DE PLATILLOS</h3>
+
+		<button type="button" class="btn btn-primary mt-5" data-toggle="modal" data-target="#modalPlatillo"
+			id="btn-nuevo">
+			<i class="far fa-file"></i> Nuevo Platillo
+		</button>
+		<div class=" mt-2">
+
+			<table class="table table-striped table-bordered mt-5" id="tablePlatillos">
+				<thead class="table-dark">
+					<tr>
+						<th class="text-center">Código</th >
+						<th class="text-center">Imágen</th >
+						<th class="text-center">Platillo</th >
+						<th class="text-center">Precio</th >
+						<th class="text-center">Categoria</th >
+						<th class="text-center"></th >
+						<th class="text-center"></th >
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="bean:${platillos}">
+						<td th:text="${bean.idPlatillo}" class="text-center"></td>
+						<td class="text-center"><img th:src="${bean.linkImagen}" width="100" height="75" /></td >
+						<td th:text="${bean.descripcion}" class="text-center"></td>
+						<td th:text="${bean.precio}" class="text-center"></td>
+						<td th:text="${bean.categoria.descripcionCategoria}" class="text-center"></td>
+						<td class="text-center"><a class="btn btn-info btn-editar" data-toggle="modal" data-target="#modalPlatillo"><i
+									class="far fa-edit"></i></a></td >
+						<td class="text-center"><a class="btn btn-danger btn-eliminar"><i class="far fa-trash-alt"></i></a></td >
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- begin #modal-dialog : MODAL platillo-->
+		<div class="modal fade" id="modalPlatillo" data-backdrop="static" data-keyboard="false" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-login modal-lg">
+				<div class="modal-content">
+					<div class="modal-header bg-blue-darker">
+						<h4 class="modal-title text-white text-center">Formulario: Platillo</h4>
+					</div>
+					<div class="modal-body">
+						<form method="POST" id="idRegistra" th:action="@{/cliente/platillo/grabar}" enctype="multipart/form-data">
+							<input type="hidden" id="idIdPlatillo" name="codigo" value="0">
+							<div class="container">
+								<div class="row">
+									<div class="form-group has-feedback col-md-12">
+										<label for="exampleInputEmail1"><b>Descripcion</b></label><br>
+										<i class="fas fa-file-signature form-control-feedback2"></i>
+										<input type="text" class="form-control form-margin" id="idDescripcion"
+											placeholder="Ingresar descripcion" name="descripcion">
+									</div>
+
+									<div class="form-group has-feedback col-md-6">
+										<label for="exampleInputEmail1"><b>Precio</b></label><br>
+										<i class="fas fa-pen-fancy form-control-feedback2"></i>
+										<input type="text" class="form-control form-margin" id="idPrecio"
+											placeholder="Ingresar precio" name="precio">
+									</div>
+
+									<div class="form-group has-feedback col-md-6">
+										<label for="exampleInputEmail1"><b>Categoria</b></label><br>
+										<i class="fas fa-file-signature form-control-feedback2"></i>
+										<select class="form-control form-margin" name="categoria" id="idCategoria">
+											<option value=" ">[Seleccione Categoria]</option>
+											<option th:each="cat:${catPlatillos}" th:utext="${cat.descripcionCategoria}"
+												th:value="${cat.idCategoria}" />
+										</select>
+									</div>
+
+									<div class="form-group has-feedback col-md-6">
+										<label for="formFile" class="form-label"><b>Subir imagen (JPG o PNG)</b></label>
+										<input class="form-control" name="imagen" id="idImagen" type="file"
+											accept=".png, .jpg, .jpeg" required="required">
+									</div>
+
 								</div>
 							</div>
-						</div>
+							<div class="col-md-12 text-center mt-4">
+								<button type="submit" id="Guardar" class="btn btn-primary"><i class="fas fa-save"></i>
+									Guardar</button>
+								<button type="button" id="btn-cerrar" class="btn btn-danger" data-dismiss="modal"><i
+										class="fas fa-undo-alt"></i> Cancelar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
-		</div>
-		<!-- FIN Modal -->
-		
 	</div>
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<!-- FIN Modal -->
+
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+		crossorigin="anonymous"></script>
 	<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
-	<script th:src="@{/resources/datepicker/bootstrap-datepicker.js}"></script>     
+	<script th:src="@{/resources/datepicker/bootstrap-datepicker.js}"></script>
 	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 	<script src="https://kit.fontawesome.com/08aaa156fb.js" crossorigin="anonymous"></script>
-	<script	src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script th:src="@{/resources/alertifyjs/alertify.js}"></script>
 	<script th:src="@{/resources/alertifyjs/alertify.min.js}"></script>
 	<script th:src="@{/resources/sweetalert/sweetalert.min.js}"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	
+
 	<script th:inline="javascript" th:if="${MENSAJE!=null}">
 		//obtener atributo MENSAJE
-		var mensaje=/*[[${MENSAJE}]]*/ null;
-		
+		var mensaje =/*[[${MENSAJE}]]*/ null;
+
 		toastr.success(mensaje, toastr.options = {
 			"timeOut": "2000",
-			"positionClass " : " toast-top-right ",
+			"positionClass ": " toast-top-right ",
 		});
-	
+
 	</script>
-	
-	
+
+
 	<script>
-		
-		let URL="http://localhost:8087/medicamento/";
-	
-		$('#tableMedicamentos').DataTable();
-		$(function() {
-			$('#usr1').datepicker({
-				'format': 'yyyy-mm-dd',
-				'autoclose': true
-			});
-		});
-		
-		$('#usr1').on('changeDate show', function(e) {
-		    $('#idRegistra').bootstrapValidator('revalidateField', $('#usr1'));
+
+		let URL = "http://localhost:8094/platillo/";
+
+		$('#tablePlatillos').DataTable();
+		$(function () {
+			//$('#usr1').datepicker({
+				//'format': 'yyyy-mm-dd',
+				//'autoclose': true
+			//});
 		});
 
-		
-	$(document).on("click",".btn-editar",function(e){
-		let cod=$(this).parents("tr").find("td")[0].innerHTML;
-		axios.get(URL + "buscar/"+cod)
-		  .then(function (response) {
-			console.log(response);
-			document.querySelector("#idCodigo").value=response.data.codigo;
-			document.querySelector("#idNombre").value=response.data.nombre;
-			document.querySelector("#idStock").value=response.data.stock;
-			document.querySelector("#idPrecio").value=response.data.precio;
-			document.querySelector("#usr1").value=response.data.fechaVencimiento;
-			document.querySelector("#idLaboratorio").value=response.data.laboratorio.codigo;
-		  })
-		  .catch(function (error) {
-		    console.log(error);
-		  })
-		  
-	})
-	
-	$(document).on("click",".btn-eliminar",function(e){
-		event.preventDefault();
-		let cod=$(this).parents("tr").find("td")[0].innerHTML;
-		swal({
-			  title: "Seguro de eliminar Medicamento?",
-			  text: "",
-			  icon: "warning",
-			  buttons: true,
-			  dangerMode: true,
-			  buttons: ["No", "Si"],
+		//$('#usr1').on('changeDate show', function (e) {
+			//$('#idRegistra').bootstrapValidator('revalidateField', $('#usr1'));
+		//});
+
+
+		$(document).on("click", ".btn-editar", function (e) {
+			let cod = $(this).parents("tr").find("td")[0].innerHTML;
+			axios.get(URL + "buscar/" + cod)
+				.then(function (response) {
+					console.log(response);
+					document.querySelector("#idIdPlatillo").value = response.data.idPlatillo;
+					document.querySelector("#idDescripcion").value = response.data.descripcion;
+					document.querySelector("#idPrecio").value = response.data.precio;
+					document.querySelector("#idCategoria").value = response.data.categoria.idCategoria;
+					//document.querySelector("#idImagen").value = response.data.linkImagen;
+				})
+				.catch(function (error) {
+					console.log(error);
+				})
+
+		})
+
+		$(document).on("click", ".btn-eliminar", function (e) {
+			event.preventDefault();
+			let cod = $(this).parents("tr").find("td")[0].innerHTML;
+			swal({
+				title: "¿Seguro de eliminar este Platillo?",
+				text: "",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+				buttons: ["No", "Si"],
 			})
-			.then((willSave) => {
-			  if (willSave) {
-				   axios.delete(URL+"eliminar/"+cod)
-				  .then(function (response) {
-						toastr.success("Registro elimando correctamente", toastr.options = {
-							"timeOut": "2000",
-							"positionClass " : " toast-top-right ",
-						});
-						setTimeout("window.location = 'http://localhost:8099/cliente/'",1000);   
-				  })
-				  .catch(function (error) {
-				    toastr.success("Error en la eliminación", toastr.options = {
-						"timeOut": "2000",
-						"positionClass " : " toast-top-right ",
-					});
-				  })
-			  } 
-			})		  
-				  	
-	})			
+				.then((willSave) => {
+					if (willSave) {
+						axios.delete(URL + "eliminar/" + cod)
+							.then(function (response) {
+								toastr.success("Registro elimando correctamente", toastr.options = {
+									"timeOut": "2000",
+									"positionClass ": " toast-top-right ",
+								});
+								setTimeout("window.location = 'http://localhost:8095/cliente/platillo/'", 1000);
+							})
+							.catch(function (error) {
+								toastr.success("Error en la eliminación", toastr.options = {
+									"timeOut": "2000",
+									"positionClass ": " toast-top-right ",
+								});
+							})
+					}
+				})
 
-	//asignar evento click al botón con ID "btn-cerrar"
-	$(document).on("click","#btn-cerrar",function(){
+		})
+
+		//asignar evento click al botón con ID "btn-cerrar"
+		$(document).on("click", "#btn-cerrar", function () {
 			//reiniciar validación al formulario con ID "idRegistra" 
 			$('#idRegistra').data("bootstrapValidator").resetForm(true);
 			//resetear "limpiar cajas" que existen el formulario con ID "idRegistra"
-			$('#idRegistra').trigger("reset");	
+			$('#idRegistra').trigger("reset");
 			//mostrar en la caja con ID "idCodigo" el valor de "0"
-			$("#idCodigo").val(0);
-	})
+			$("#idIdPlatillo").val(0);
+		})
 
 
-	
+
 
 	</script>
-	
-	<script type="text/javascript">    
-	    $(document).ready(function(){     
-	
-	        $('#idRegistra').bootstrapValidator({     
-	        	feedbackIcons: {
-	                valid: 'glyphicon glyphicon-ok',
-	                invalid: 'glyphicon glyphicon-remove',
-	                validating: 'glyphicon glyphicon-refresh'
-	            },
-	        	 fields:{
-	        		 
-	        		 Nombres: {
-	     	    		selector:'#idNombre',   
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+
+			$('#idRegistra').bootstrapValidator({
+				feedbackIcons: {
+					valid: 'glyphicon glyphicon-ok',
+					invalid: 'glyphicon glyphicon-remove',
+					validating: 'glyphicon glyphicon-refresh'
+				},
+				fields: {
+	        		 Descripcion: {
+	     	    		selector:'#idDescripcion',   
 	                    validators: {    
 	                        notEmpty: {    
-	                            message: 'Ingrese nombre'    
+	                            message: 'Ingrese descripcion del platillo'    
+	                        },
+	                        regexp: {    
+	                            regexp: /^[A-Za-z����������\s]{3,44}$/,    
+	                            message: 'Ingrese solo letras entre 3 y 44 caracteres'    
 	                        }      
 	                    }    
 	                },   
-	                Descripcion: {
-	     	    		selector:'#idDescripcion',       
-	                    validators: {    
-	                        notEmpty: {    
-	                            message: 'Ingrese descripción'    
-	                        }      
-	                    }    
-	                },    
-	                Stock: {
-	     	    		selector:'#idStock',      
-	                    validators: {    
-	                        notEmpty: {    
-	                            message: 'Ingrese stock'    
-	                        },
-	                        regexp: {    
-	                            regexp: /^([1-9]|[1-9][0-9])$/,    
-	                            message: 'Campo stock hasta dos cifras'    
-	                        },   
-	                    }    
-	                },
-	                precio: {
+	                Precio: {
 	     	    		selector:'#idPrecio',      
 	                    validators: {    
 	                        notEmpty: {    
-	                            message: 'Ingrese precio'    
+	                            message: 'Ingrese el precio'    
 	                        },
 	                        regexp: {    
 	                            regexp: /^(\d+|[0-9]+\.\d{1,2})$/,    
-	                            message: 'Campo precio real hasta dos decimales'    
-	                        },   
+	                            message: 'Solo n�meros con dos decimales'    
+	                        }   
 	                    }    
 	                },       				
-	                Fecha: {
-	     	    		selector:'#usr1',   
+	                Categoria: {
+	     	    		selector:'#idCategoria',   
 	                    validators: {    
 	                        notEmpty: {    
-	                            message: 'Seleccione fecha '    
-	                        },
-	                        date: {
-	                            format: 'YYYY-MM-DD',
-	                            message: 'The format is dd/mm/yyyy'
-	                        },
-	                    }    
-	                },
-	                Laboratorio: {
-	     	    		selector:'#idLaboratorio',   
-	                    validators: {    
-	                       	notEmpty: {     
-	                            message: 'Seleccione tipo medicamento'  
+	                            message: 'Seleccione una categoria'    
 	                        }					
 	                    }    
-	                } 
-	        	 }
-	        });   				
-	    });    
-	</script>   
-		
+	                },
+        		 	imagen: {
+                        validators: {
+                            file: {
+                            	extension: 'jpg,png',
+                                type: 'image/jpeg,image/png',
+                                maxSize: 5242880, // 5 MB
+                                message: 'El archivo debe ser un JPEG o PNG'
+                            },
+                            notEmpty: {
+                                message: 'Suba una imagen'
+                            }
+                        }
+                    } 
+				}
+			});
+		});
+	</script>
+
 </body>
+
 </html>
