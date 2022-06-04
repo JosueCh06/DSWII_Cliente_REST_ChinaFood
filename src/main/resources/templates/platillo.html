@@ -11,6 +11,7 @@
 	<link rel="stylesheet" th:href="@{/resources/datepicker/bootstrap-datepicker.css}">
 	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.css}">
 	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.min.css}">
+	<link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
 	<style>
 		.modal-header,
@@ -120,23 +121,31 @@
 			<table class="table table-striped table-bordered mt-5" id="tablePlatillos">
 				<thead class="table-dark">
 					<tr>
-						<th class="text-center">Código</th >
-						<th class="text-center">Platillo</th >
-						<th class="text-center">Precio</th >
-						<th class="text-center">Categoria</th >
-						<th class="text-center"></th >
-						<th class="text-center"></th >
+						<th class="text-center">Código</th>
+						<th class="text-center">Icono</th>
+						<th class="text-center">Platillo</th>
+						<th class="text-center">Precio</th>
+						<th class="text-center">Categoria</th>
+						<th class="text-center"></th>
+						<th class="text-center"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="bean:${platillos}">
 						<td th:text="${bean.idPlatillo}" class="text-center"></td>
+						<td th:switch="${bean.categoria.idCategoria}" class="text-center">
+							<span th:case="'1'" ><i class='bx bxs-bowl-rice' style="font-size: 35px;"></i></span>
+							<span th:case="'2'" ><i class='bx bxs-bowl-hot' style="font-size: 35px;" ></i></span>
+							<span th:case="'3'" ><i class='bx bxs-drink' style="font-size: 35px;" ></i></span>
+							<span th:case="'4'" ><i class='bx bxs-cookie' style="font-size: 35px;" ></i></span>
+						</td>
 						<td th:text="${bean.descripcion}" class="text-center"></td>
 						<td th:text="${bean.precio}" class="text-center"></td>
 						<td th:text="${bean.categoria.descripcionCategoria}" class="text-center"></td>
-						<td class="text-center"><a class="btn btn-info btn-editar" data-toggle="modal" data-target="#modalPlatillo"><i
-									class="far fa-edit"></i></a></td >
-						<td class="text-center"><a class="btn btn-danger btn-eliminar"><i class="far fa-trash-alt"></i></a></td >
+						<td class="text-center"><a class="btn btn-info btn-editar" data-toggle="modal"
+								data-target="#modalPlatillo"><i class="far fa-edit"></i></a></td>
+						<td class="text-center"><a class="btn btn-danger btn-eliminar"><i
+									class="far fa-trash-alt"></i></a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -150,35 +159,37 @@
 						<h4 class="modal-title text-white text-center">Formulario: Platillo</h4>
 					</div>
 					<div class="modal-body">
-						<form method="POST" id="idRegistra" th:action="@{/cliente/platillo/grabar}" th:object="${platillo}">
+						<form method="POST" id="idRegistra" th:action="@{/cliente/platillo/grabar}"
+							th:object="${platillo}">
 							<input type="hidden" id="idIdPlatillo" value="0" th:field="*{idPlatillo}">
 							<div class="container">
 								<div class="row">
 									<div class="form-group has-feedback col-md-12">
 										<label for="exampleInputEmail1"><b>Descripcion</b></label><br>
-										<i class="fas fa-file-signature form-control-feedback2"></i>
+										<i class="bx bx-pencil form-control-feedback2"></i>
 										<input type="text" class="form-control form-margin" id="idDescripcion"
 											placeholder="Ingresar descripcion" th:field="*{descripcion}">
 									</div>
 
 									<div class="form-group has-feedback col-md-6">
 										<label for="exampleInputEmail1"><b>Precio</b></label><br>
-										<i class="fas fa-pen-fancy form-control-feedback2"></i>
+										<i class="bx bx-pencil form-control-feedback2"></i>
 										<input type="text" class="form-control form-margin" id="idPrecio"
 											placeholder="Ingresar precio" th:field="*{precio}">
 									</div>
 
 									<div class="form-group has-feedback col-md-6">
 										<label for="exampleInputEmail1"><b>Categoria</b></label><br>
-										<i class="fas fa-file-signature form-control-feedback2"></i>
-										<select class="form-control form-margin" id="idCategoria" th:field="*{categoria.idCategoria}">
+										<i class="bx bx-list-ul form-control-feedback2"></i>
+										<select class="form-control form-margin" id="idCategoria"
+											th:field="*{categoria.idCategoria}">
 											<option value="0">[Seleccione Categoria]</option>
-											<option th:each="bean:${catPlatillos}" 
+											<option th:each="bean:${catPlatillos}"
 												th:utext="${bean.descripcionCategoria}"
 												th:value="${bean.idCategoria}" />
 										</select>
 									</div>
-									
+
 								</div>
 							</div>
 							<div class="col-md-12 text-center mt-4">
@@ -233,13 +244,13 @@
 		$('#tablePlatillos').DataTable();
 		$(function () {
 			//$('#usr1').datepicker({
-				//'format': 'yyyy-mm-dd',
-				//'autoclose': true
+			//'format': 'yyyy-mm-dd',
+			//'autoclose': true
 			//});
 		});
 
 		//$('#usr1').on('changeDate show', function (e) {
-			//$('#idRegistra').bootstrapValidator('revalidateField', $('#usr1'));
+		//$('#idRegistra').bootstrapValidator('revalidateField', $('#usr1'));
 		//});
 
 
@@ -316,38 +327,38 @@
 					validating: 'glyphicon glyphicon-refresh'
 				},
 				fields: {
-	        		 Descripcion: {
-	     	    		selector:'#idDescripcion',   
-	                    validators: {    
-	                        notEmpty: {    
-	                            message: 'Ingrese descripcion del platillo'    
-	                        },
-	                        regexp: {    
-	                            regexp: /^[A-Za-z����������\s]{3,44}$/,    
-	                            message: 'Ingrese solo letras entre 3 y 44 caracteres'    
-	                        }      
-	                    }    
-	                },   
-	                Precio: {
-	     	    		selector:'#idPrecio',      
-	                    validators: {    
-	                        notEmpty: {    
-	                            message: 'Ingrese el precio'    
-	                        },
-	                        regexp: {    
-	                            regexp: /^(\d+|[0-9]+\.\d{1,2})$/,    
-	                            message: 'Solo n�meros con dos decimales'    
-	                        }   
-	                    }    
-	                },       				
-	                Categoria: {
-	     	    		selector:'#idCategoria',   
-	                    validators: {    
-	                        notEmpty: {    
-	                            message: 'Seleccione una categoria'    
-	                        }					
-	                    }    
-	                } 
+					Descripcion: {
+						selector: '#idDescripcion',
+						validators: {
+							notEmpty: {
+								message: 'Ingrese descripcion del platillo'
+							},
+							regexp: {
+								regexp: /^[A-Za-z����������\s]{3,44}$/,
+								message: 'Ingrese solo letras entre 3 y 44 caracteres'
+							}
+						}
+					},
+					Precio: {
+						selector: '#idPrecio',
+						validators: {
+							notEmpty: {
+								message: 'Ingrese el precio'
+							},
+							regexp: {
+								regexp: /^(\d+|[0-9]+\.\d{1,2})$/,
+								message: 'Solo n�meros con dos decimales'
+							}
+						}
+					},
+					Categoria: {
+						selector: '#idCategoria',
+						validators: {
+							notEmpty: {
+								message: 'Seleccione una categoria'
+							}
+						}
+					}
 				}
 			});
 		});

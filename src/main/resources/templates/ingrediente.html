@@ -11,6 +11,8 @@
 	<link rel="stylesheet" th:href="@{/resources/datepicker/bootstrap-datepicker.css}">
 	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.css}">
 	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.min.css}">
+	<link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+		
 	<style>
 		.modal-header,
 		h4,
@@ -158,28 +160,28 @@
 								<div class="row">
 									<div class="form-group has-feedback col-md-12">
 										<label for="exampleInputEmail1"><b>Descripción</b></label><br>
-										<i class="fas fa-file-signature form-control-feedback2"></i>
+										<i class="bx bx-pencil form-control-feedback2"></i>
 										<input type="text" class="form-control form-margin" id="idDescripcion"
 											placeholder="Ingresar descripcion" name="descripcion" th:field="*{descripcion}">
 									</div>
 
 									<div class="form-group has-feedback col-md-6">
 										<label for="exampleInputEmail1"><b>Stock</b></label><br>
-										<i class="fas fa-pen-fancy form-control-feedback2"></i>
+										<i class="bx bx-pencil form-control-feedback2"></i>
 										<input type="text" class="form-control form-margin" id="idStock"
 											placeholder="Ingresar stock" name="stock" th:field="*{stock}">
 									</div>
 
 									<div class="form-group has-feedback col-md-6">
 										<label for="exampleInputEmail1"><b>Unid/Medida</b></label><br>
-										<i class="fas fa-pen-fancy form-control-feedback2"></i>
+										<i class="bx bx-pencil form-control-feedback2"></i>
 										<input type="text" class="form-control form-margin" id="idMedida"
 											placeholder="Ingresar unidad de medida" name="medida" th:field="*{unidadMedida}">
 									</div>
 
 									<div class="form-group has-feedback col-md-6">
 										<label for="exampleInputEmail1"><b>Proveedor</b></label><br>
-										<i class="fas fa-prescription-bottle-alt form-control-feedback2"></i>
+										<i class="bx bx-list-ul form-control-feedback2"></i>
 										<select class="form-control form-margin" name="proveedor" id="idProveedor" th:field="*{proveedor.idProveedor}">
 											<option value="0">[Seleccione Proveedor]</option>
 											<option th:each="bean:${proveedores}" th:utext="${bean.nombre}"
@@ -347,14 +349,14 @@
 						}
 					},
 
-					Proveedor: {
+					proveedor: {
 						selector: '#idProveedor',
 						validators: {
 							notEmpty: {
-								message: 'Seleccione tipo de proveedor'
+								message: 'Seleccione tipo de proveedor',
 							}
 						}
-					},
+					}
 				}
 
 			});
