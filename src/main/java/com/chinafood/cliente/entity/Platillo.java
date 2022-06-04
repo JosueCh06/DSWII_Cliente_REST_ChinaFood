@@ -6,7 +6,6 @@ public class Platillo {
 	private String descripcion;
 	private double precio;
 	private CategoriaPlatillo categoria;
-	private String linkImagen;
 	
 	public int getIdPlatillo() {
 		return idPlatillo;
@@ -31,12 +30,6 @@ public class Platillo {
 	}
 	public void setCategoria(CategoriaPlatillo categoria) {
 		this.categoria = categoria;
-	}
-	public String getLinkImagen() {
-		return linkImagen;
-	}
-	public void setLinkImagen(String linkImagen) {
-		this.linkImagen = linkImagen;
 	}
 	public Platillo() {
 		
