@@ -121,7 +121,6 @@
 				<thead class="table-dark">
 					<tr>
 						<th class="text-center">Código</th >
-						<th class="text-center">Imágen</th >
 						<th class="text-center">Platillo</th >
 						<th class="text-center">Precio</th >
 						<th class="text-center">Categoria</th >
@@ -132,7 +131,6 @@
 				<tbody>
 					<tr th:each="bean:${platillos}">
 						<td th:text="${bean.idPlatillo}" class="text-center"></td>
-						<td class="text-center"><img th:src="${bean.linkImagen}" width="100" height="75" /></td >
 						<td th:text="${bean.descripcion}" class="text-center"></td>
 						<td th:text="${bean.precio}" class="text-center"></td>
 						<td th:text="${bean.categoria.descripcionCategoria}" class="text-center"></td>
@@ -152,40 +150,35 @@
 						<h4 class="modal-title text-white text-center">Formulario: Platillo</h4>
 					</div>
 					<div class="modal-body">
-						<form method="POST" id="idRegistra" th:action="@{/cliente/platillo/grabar}" enctype="multipart/form-data">
-							<input type="hidden" id="idIdPlatillo" name="codigo" value="0">
+						<form method="POST" id="idRegistra" th:action="@{/cliente/platillo/grabar}" th:object="${platillo}">
+							<input type="hidden" id="idIdPlatillo" value="0" th:field="*{idPlatillo}">
 							<div class="container">
 								<div class="row">
 									<div class="form-group has-feedback col-md-12">
 										<label for="exampleInputEmail1"><b>Descripcion</b></label><br>
 										<i class="fas fa-file-signature form-control-feedback2"></i>
 										<input type="text" class="form-control form-margin" id="idDescripcion"
-											placeholder="Ingresar descripcion" name="descripcion">
+											placeholder="Ingresar descripcion" th:field="*{descripcion}">
 									</div>
 
 									<div class="form-group has-feedback col-md-6">
 										<label for="exampleInputEmail1"><b>Precio</b></label><br>
 										<i class="fas fa-pen-fancy form-control-feedback2"></i>
 										<input type="text" class="form-control form-margin" id="idPrecio"
-											placeholder="Ingresar precio" name="precio">
+											placeholder="Ingresar precio" th:field="*{precio}">
 									</div>
 
 									<div class="form-group has-feedback col-md-6">
 										<label for="exampleInputEmail1"><b>Categoria</b></label><br>
 										<i class="fas fa-file-signature form-control-feedback2"></i>
-										<select class="form-control form-margin" name="categoria" id="idCategoria">
-											<option value=" ">[Seleccione Categoria]</option>
-											<option th:each="cat:${catPlatillos}" th:utext="${cat.descripcionCategoria}"
-												th:value="${cat.idCategoria}" />
+										<select class="form-control form-margin" id="idCategoria" th:field="*{categoria.idCategoria}">
+											<option value="0">[Seleccione Categoria]</option>
+											<option th:each="bean:${catPlatillos}" 
+												th:utext="${bean.descripcionCategoria}"
+												th:value="${bean.idCategoria}" />
 										</select>
 									</div>
-
-									<div class="form-group has-feedback col-md-6">
-										<label for="formFile" class="form-label"><b>Subir imagen (JPG o PNG)</b></label>
-										<input class="form-control" name="imagen" id="idImagen" type="file"
-											accept=".png, .jpg, .jpeg" required="required">
-									</div>
-
+									
 								</div>
 							</div>
 							<div class="col-md-12 text-center mt-4">
@@ -259,7 +252,6 @@
 					document.querySelector("#idDescripcion").value = response.data.descripcion;
 					document.querySelector("#idPrecio").value = response.data.precio;
 					document.querySelector("#idCategoria").value = response.data.categoria.idCategoria;
-					//document.querySelector("#idImagen").value = response.data.linkImagen;
 				})
 				.catch(function (error) {
 					console.log(error);
@@ -355,20 +347,7 @@
 	                            message: 'Seleccione una categoria'    
 	                        }					
 	                    }    
-	                },
-        		 	imagen: {
-                        validators: {
-                            file: {
-                            	extension: 'jpg,png',
-                                type: 'image/jpeg,image/png',
-                                maxSize: 5242880, // 5 MB
-                                message: 'El archivo debe ser un JPEG o PNG'
-                            },
-                            notEmpty: {
-                                message: 'Suba una imagen'
-                            }
-                        }
-                    } 
+	                } 
 				}
 			});
 		});
