@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Proveedor</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+		integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	<link rel="stylesheet" th:href="@{/resources/datepicker/bootstrap-datepicker.css}">
+	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.css}">
+	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.min.css}">
+	<style>
+		.modal-header,
+		h4,
+		.close {
+			background-color: #286090;
+			color: white !important;
+			text-align: center;
+			font-size: 20px;
+		}
+
+		.help-block {
+			color: red;
+			/*display: none;*/
+		}
+
+		.form-group.has-error .form-control-label {
+			color: red;
+		}
+
+		.form-group.has-error .form-control {
+			border: 1px solid red;
+			box-shadow: 0 0 0 0.2rem rgba(250, 16, 0, 0.18);
+		}
+
+		.alertify .ajs-dialog {
+			top: 50%;
+			transform: translateY(-50%);
+			margin: auto;
+		}
+
+		.ajs-header {
+			background-color: #286090 !important;
+			color: white !important;
+			/*text-align: center;*/
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		.ajs-ok {
+			color: #fff;
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+
+		.ajs-cancel {
+			color: #fff;
+			background-color: #dc3545;
+			border-color: #dc3545;
+		}
+
+		.btn-primary {
+			background-color: #286090 !important;
+		}
+
+		.dataTables_length,
+		.dataTables_info {
+			display: none;
+		}
+
+		.modal-lg,
+		.modal-xl {
+			max-width: 900px;
+			max-height: 800px;
+		}
+
+		.form-control-feedback2 {
+			margin: 1px;
+			position: absolute;
+			padding: 10px;
+			pointer-events: none;
+			background-color: #e9ecef;
+			border-style: none;
+		}
+
+		.form-control-feedback3 {
+			margin: 1px;
+			position: absolute;
+			margin-left: 225px;
+			padding: 10px;
+			pointer-events: none;
+			background-color: #e9ecef;
+			border-style: none;
+		}
+
+		.form-control {
+			padding-left: 40px !important;
+		}
+
+		/*.toast-succes{
+		width: 120px;
+	}*/
+	</style>
+
+</head>
+
+<body>
+	<div class="container">
+
+		<h3 class="text-center mt-4">Lista de Proveedores</h3>
+			 <hr color="#e9ecef" size=3>
+		<button type="button" class="btn btn-primary mt-5" data-toggle="modal" data-target="#modalProveedor"
+			id="btn-nuevo">
+			<i class="far fa-file"></i> Nuevo Proveedor
+		</button>
+		<div class=" mt-2">
+
+			<table class="table table-striped table-bordered mt-5" id="tableProveedores">
+				<thead>
+					<tr>
+						<th>Código</th>
+						<th>Nombre</th>
+						<th>Representante</th>
+						<th>Celular</th>
+						<th>Dirección</th>
+						<th>Categoria</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="bean:${proveedores}">
+						<td th:text="${bean.idProveedor}"></td>
+						<td th:text="${bean.nombre}"></td>
+						<td th:text="${bean.representante}"></td>
+						<td th:text="${bean.celular}"></td>
+						<td th:text="${bean.direccion}"></td>
+						<td th:text="${bean.categoriaProveedor.descripcionCategoriaP}"></td>
+						<td><a class="btn btn-info btn-editar" data-toggle="modal" data-target="#modalProveedor"><i
+									class="far fa-edit"></i></a></td>
+						<td><a class="btn btn-danger btn-eliminar"><i class="far fa-trash-alt"></i></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- begin #modal-dialog : MODAL proveedor-->
+		<div class="modal fade" id="modalProveedor" data-backdrop="static" data-keyboard="false" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-login modal-lg">
+				<div class="modal-content">
+					<div class="modal-header bg-blue-darker">
+						<h4 class="modal-title text-white text-center">Formulario: Proveedor</h4>
+					</div>
+					<div class="modal-body">
+						<form method="POST" id="idRegistra" th:action="@{/cliente/proveedor/grabar}" th:object="${proveedor}">
+							<input type="hidden" id="idIdProveedor" name="codigo" value="0" th:field="*{idProveedor}">
+							<div class="container">
+								<div class="row">
+									<div class="form-group has-feedback col-md-12">
+										<label for="exampleInputEmail1"><b>Nombre</b></label><br>
+										<i class="fas fa-file-signature form-control-feedback2"></i>
+										<input type="text" class="form-control form-margin" id="idNombre"
+											placeholder="Ingresar nombre" name="nombre" th:field="*{nombre}">
+									</div>
+
+									<div class="form-group has-feedback col-md-6">
+										<label for="exampleInputEmail1"><b>Representante</b></label><br>
+										<i class="fas fa-pen-fancy form-control-feedback2"></i>
+										<input type="text" class="form-control form-margin" id="idRepresentante"
+											placeholder="Ingresar representante" name="representante" th:field="*{representante}">
+									</div>
+
+									<div class="form-group has-feedback col-md-6">
+										<label for="exampleInputEmail1"><b>Celular</b></label><br>
+										<i class="fas fa-pen-fancy form-control-feedback2"></i>
+										<input type="text" class="form-control form-margin" id="idCelular"
+											placeholder="Ingresar celular" name="celular" th:field="*{celular}">
+									</div>
+									
+									<div class="form-group has-feedback col-md-6">
+										<label for="exampleInputEmail1"><b>Dirección</b></label><br>
+										<i class="fas fa-pen-fancy form-control-feedback2"></i>
+										<input type="text" class="form-control form-margin" id="idDireccion"
+											placeholder="Ingresar direccion" name="direccion" th:field="*{direccion}">
+									</div>
+
+									<div class="form-group has-feedback col-md-6">
+										<label for="exampleInputEmail1"><b>Categoria</b></label><br>
+										<i class="fas fa-prescription-bottle-alt form-control-feedback2"></i>
+										<select class="form-control form-margin" name="categoria" id="idCategoria" th:field="*{categoriaProveedor.idCategoriaP}">
+											<option value="0">[Seleccione Categoria]</option>
+											<option th:each="bean:${categorias}" th:utext="${bean.descripcionCategoriaP}"
+												th:value="${bean.idCategoriaP}" />
+										</select>
+									</div>
+
+								</div>
+							</div>
+							<div class="col-md-12 text-center mt-4">
+								<button type="submit" id="Guardar" class="btn btn-primary"><i class="fas fa-save"></i>
+									Guardar</button>
+								<button type="button" id="btn-cerrar" class="btn btn-danger" data-dismiss="modal"><i
+										class="fas fa-undo-alt"></i> Cancelar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- FIN Modal -->
+
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+	<script th:src="@{/resources/datepicker/bootstrap-datepicker.js}"></script>
+	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+	<script src="https://kit.fontawesome.com/08aaa156fb.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script th:src="@{/resources/alertifyjs/alertify.js}"></script>
+	<script th:src="@{/resources/alertifyjs/alertify.min.js}"></script>
+	<script th:src="@{/resources/sweetalert/sweetalert.min.js}"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+	<script th:inline="javascript" th:if="${MENSAJE!=null}">
+		//obtener atributo MENSAJE
+		var mensaje =/*[[${MENSAJE}]]*/ null;
+
+		toastr.success(mensaje, toastr.options = {
+			"timeOut": "2000",
+			"positionClass ": " toast-top-right "
+		});
+
+	</script>
+
+
+	<script>
+
+		let URL = "http://localhost:8094/proveedor/";
+
+		$('#tableProveedores').DataTable();
+		$(function () {});
+
+		$(document).on("click", ".btn-editar", function (e) {
+			let cod = $(this).parents("tr").find("td")[0].innerHTML;
+			axios.get(URL + "buscar/" + cod)
+				.then(function (response) {
+					console.log(response);
+					document.querySelector("#idIdProveedor").value = response.data.idProveedor;
+					document.querySelector("#idNombre").value = response.data.nombre;
+					document.querySelector("#idRepresentante").value = response.data.representante;
+					document.querySelector("#idCelular").value = response.data.celular;
+					document.querySelector("#idDireccion").value = response.data.direccion;
+					document.querySelector("#idCategoria").value = response.data.categoriaProveedor.idCategoriaP;
+				})
+				.catch(function (error) {
+					console.log(error);
+				})
+		});
+
+
+		$(document).on("click", ".btn-eliminar", function (e) {
+			event.preventDefault();
+			let cod = $(this).parents("tr").find("td")[0].innerHTML;
+			swal({
+				title: "¿Segur@ de eliminar al proveedor?",
+				text: "",
+				icon: "warning",
+				buttons: true,
+				dangerMode: true,
+				buttons: ["No", "Si,eliminar"],
+			}).then((willSave) => {
+				if (willSave) {
+					axios.delete(URL + "eliminar/" + cod)
+						.then(function (response) {
+							toastr.success("Registro eliminado correctamente", toastr.options = {
+								"timeOut": "2000",
+								"positionClass ": " toast-top-right ",
+							});
+							setTimeout("window.location = 'http://localhost:8095/cliente/proveedor/'", 1000);
+						})
+						.catch(function (error) {
+							toastr.success("Error en la eliminación", toastr.options = {
+								"timeOut": "2000",
+								"positionClass ": " toast-top-right ",
+							});
+						})
+				}
+			})
+
+		});
+
+		//asignar evento click al botón con ID "btn-cerrar"
+		$(document).on("click", "#btn-cerrar", function () {
+			//reiniciar validación al formulario con ID "idRegistra" 
+			$('#idRegistra').data("bootstrapValidator").resetForm(true);
+			//resetear "limpiar cajas" que existen el formulario con ID "idRegistra"
+			$('#idRegistra').trigger("reset");
+			//mostrar en la caja con ID "idCodigo" el valor de "0"
+			$("#idIdProveedor").val(0);
+		});
+
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#idRegistra').bootstrapValidator({
+
+				feedbackIcons: {
+					valid: 'glyphicon glyphicon-ok',
+					invalid: 'glyphicon glyphicon-remove',
+					validating: 'glyphicon glyphicon-refresh'
+				},
+
+				fields: {
+					Nombre: {
+						selector: '#idNombre',
+						validators: {
+							notEmpty: {
+								message: 'Ingrese nombre',
+							},
+							regexp: {
+								regexp: /^[A-Za-z����������\s]{2,44}$/,
+								message: 'Ingrese solo letras entre 2 y 44 caracteres'
+							}
+						}
+					},
+
+					Representante: {
+						selector: '#idRepresentante',
+						validators: {
+							notEmpty: {
+								message: 'Ingrese representante',
+							},
+							regexp: {
+								regexp: /^[A-Za-z����������\s]{3,44}$/,
+								message: 'Ingrese solo letras entre 3 y 44 caracteres'
+							}
+						}
+					},
+
+					Celular: {
+						selector: '#idCelular',
+						validators: {
+							notEmpty: {
+								message: 'Ingrese número de celular',
+							},
+							regexp: {
+								regexp: /^[0-9]{9}$/,
+								message: 'Ingrese un formato de 9 dígitos'
+							},
+
+						}
+					},
+					Direccion: {
+						selector: '#idDireccion',
+						validators: {
+							notEmpty: {
+								message: 'Ingrese una dirección',
+							},
+						}
+					},
+
+					Categoria: {
+						selector: '#idCategoria',
+						validators: {
+							notEmpty: {
+								message: 'Seleccione categoria del proveedor'
+							}
+						}
+					},
+				}
+
+			});
+		});
+	</script>
+
+</body>
+
+</html>
