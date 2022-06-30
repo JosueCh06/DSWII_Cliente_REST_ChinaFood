@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.cibertec.com/spring/soap/api/servicioPlatillo" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.cibertec.com/spring/soap/api/servicioPlatillo" targetNamespace="http://www.cibertec.com/spring/soap/api/servicioPlatillo">
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.cibertec.com/spring/soap/api/servicioPlatillo">
+	<xsd:complexType name="categoria">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:int"/>
+			<xsd:element name="descripcion" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="platillo">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:int"/>
+			<xsd:element name="descripcion" type="xsd:string"/>
+			<xsd:element name="precio" type="xsd:decimal"/>
+			<xsd:element name="categoria" type="tns:categoria"/>
+		</xsd:sequence>
+	</xsd:complexType>
+    <xsd:element name="getPlatillosRequest">
+    	<xsd:complexType>
+    		
+    	</xsd:complexType>
+    </xsd:element>
+	<xsd:element name="getPlatillosResponse">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element maxOccurs="2" name="lista" type="tns:platillo"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getCategoriasRequest">
+    	<xsd:complexType>
+    		
+    	</xsd:complexType>
+    </xsd:element>
+	<xsd:element name="getCategoriasResponse">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element maxOccurs="2" name="lista" type="tns:categoria"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getPlatilloRequest">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="codigo" type="xsd:int"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getPlatilloResponse">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="platillo" type="tns:platillo"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+	<xsd:element name="postPlatilloRequest">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="platillo" type="tns:platillo"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:element name="postPlatilloResponse">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="salida" type="xsd:int"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:element name="updatePlatilloRequest">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="platillo" type="tns:platillo"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:element name="updatePlatilloResponse">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="salida" type="xsd:int"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:element name="deletePlatilloRequest">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="codigo" type="xsd:int"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+    <xsd:element name="deletePlatilloResponse">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="salida" type="xsd:int"/>
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getPlatilloRequest">
+    <wsdl:part element="tns:getPlatilloRequest" name="getPlatilloRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCategoriasResponse">
+    <wsdl:part element="tns:getCategoriasResponse" name="getCategoriasResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePlatilloResponse">
+    <wsdl:part element="tns:deletePlatilloResponse" name="deletePlatilloResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="postPlatilloRequest">
+    <wsdl:part element="tns:postPlatilloRequest" name="postPlatilloRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCategoriasRequest">
+    <wsdl:part element="tns:getCategoriasRequest" name="getCategoriasRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePlatilloResponse">
+    <wsdl:part element="tns:updatePlatilloResponse" name="updatePlatilloResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPlatillosRequest">
+    <wsdl:part element="tns:getPlatillosRequest" name="getPlatillosRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="postPlatilloResponse">
+    <wsdl:part element="tns:postPlatilloResponse" name="postPlatilloResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePlatilloRequest">
+    <wsdl:part element="tns:updatePlatilloRequest" name="updatePlatilloRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePlatilloRequest">
+    <wsdl:part element="tns:deletePlatilloRequest" name="deletePlatilloRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPlatilloResponse">
+    <wsdl:part element="tns:getPlatilloResponse" name="getPlatilloResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPlatillosResponse">
+    <wsdl:part element="tns:getPlatillosResponse" name="getPlatillosResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ServicioPlatilloindicator">
+    <wsdl:operation name="getPlatillo">
+      <wsdl:input message="tns:getPlatilloRequest" name="getPlatilloRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getPlatilloResponse" name="getPlatilloResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCategorias">
+      <wsdl:input message="tns:getCategoriasRequest" name="getCategoriasRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getCategoriasResponse" name="getCategoriasResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletePlatillo">
+      <wsdl:input message="tns:deletePlatilloRequest" name="deletePlatilloRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:deletePlatilloResponse" name="deletePlatilloResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="postPlatillo">
+      <wsdl:input message="tns:postPlatilloRequest" name="postPlatilloRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:postPlatilloResponse" name="postPlatilloResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatePlatillo">
+      <wsdl:input message="tns:updatePlatilloRequest" name="updatePlatilloRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:updatePlatilloResponse" name="updatePlatilloResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlatillos">
+      <wsdl:input message="tns:getPlatillosRequest" name="getPlatillosRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getPlatillosResponse" name="getPlatillosResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicioPlatilloindicatorSoap11" type="tns:ServicioPlatilloindicator">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getPlatillo">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getPlatilloRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPlatilloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCategorias">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getCategoriasRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCategoriasResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deletePlatillo">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="deletePlatilloRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletePlatilloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="postPlatillo">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="postPlatilloRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="postPlatilloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatePlatillo">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="updatePlatilloRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatePlatilloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPlatillos">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getPlatillosRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPlatillosResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicioPlatilloindicatorService">
+    <wsdl:port binding="tns:ServicioPlatilloindicatorSoap11" name="ServicioPlatilloindicatorSoap11">
+      <soap:address location="http://localhost:8078/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

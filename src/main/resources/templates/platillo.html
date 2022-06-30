@@ -132,8 +132,8 @@
 				</thead>
 				<tbody>
 					<tr th:each="bean:${platillos}">
-						<td th:text="${bean.idPlatillo}" class="text-center"></td>
-						<td th:switch="${bean.categoria.idCategoria}" class="text-center">
+						<td th:text="${bean.id}" class="text-center"></td>
+						<td th:switch="${bean.categoria.id}" class="text-center">
 							<span th:case="'1'" ><i class='bx bxs-bowl-rice' style="font-size: 35px;"></i></span>
 							<span th:case="'2'" ><i class='bx bxs-bowl-hot' style="font-size: 35px;" ></i></span>
 							<span th:case="'3'" ><i class='bx bxs-drink' style="font-size: 35px;" ></i></span>
@@ -141,11 +141,11 @@
 						</td>
 						<td th:text="${bean.descripcion}" class="text-center"></td>
 						<td th:text="${bean.precio}" class="text-center"></td>
-						<td th:text="${bean.categoria.descripcionCategoria}" class="text-center"></td>
-						<td class="text-center"><a class="btn btn-info btn-editar" data-toggle="modal"
+						<td th:text="${bean.categoria.descripcion}" class="text-center"></td>
+						<td class="text-center"><a th:href="@{buscar/(codigo=${bean.id})}" class="btn btn-info btn-editar" data-toggle="modal"
 								data-target="#modalPlatillo"><i class="far fa-edit"></i></a></td>
-						<td class="text-center"><a class="btn btn-danger btn-eliminar"><i
-									class="far fa-trash-alt"></i></a></td>
+						<td class="text-center"><a th:href="@{eliminar/(codigo=${bean.id})}" class="btn btn-danger btn-eliminar"><i
+									class="far fa-trash-alt"></i></a ></td>
 					</tr>
 				</tbody>
 			</table>
@@ -159,9 +159,8 @@
 						<h4 class="modal-title text-white text-center">Formulario: Platillo</h4>
 					</div>
 					<div class="modal-body">
-						<form method="POST" id="idRegistra" th:action="@{/cliente/platillo/grabar}"
-							th:object="${platillo}">
-							<input type="hidden" id="idIdPlatillo" value="0" th:field="*{idPlatillo}">
+						<form method="POST" id="idRegistra" th:action="@{/cliente/platillo/registrar}" th:object="${platillo}">
+							<input type="hidden" id="idIdPlatillo" value="0" th:field="*{id}">
 							<div class="container">
 								<div class="row">
 									<div class="form-group has-feedback col-md-12">
@@ -182,11 +181,11 @@
 										<label for="exampleInputEmail1"><b>Categoria</b></label><br>
 										<i class="bx bx-list-ul form-control-feedback2"></i>
 										<select class="form-control form-margin" id="idCategoria"
-											th:field="*{categoria.idCategoria}">
+											th:field="*{categoria.id}">
 											<option value="0">[Seleccione Categoria]</option>
 											<option th:each="bean:${catPlatillos}"
-												th:utext="${bean.descripcionCategoria}"
-												th:value="${bean.idCategoria}" />
+												th:utext="${bean.descripcion}"
+												th:value="${bean.id}" />
 										</select>
 									</div>
 
@@ -239,8 +238,6 @@
 
 	<script>
 
-		let URL = "http://localhost:8094/platillo/";
-
 		$('#tablePlatillos').DataTable();
 		$(function () {
 			//$('#usr1').datepicker({
@@ -248,70 +245,43 @@
 			//'autoclose': true
 			//});
 		});
-
-		//$('#usr1').on('changeDate show', function (e) {
-		//$('#idRegistra').bootstrapValidator('revalidateField', $('#usr1'));
-		//});
-
-
-		$(document).on("click", ".btn-editar", function (e) {
-			let cod = $(this).parents("tr").find("td")[0].innerHTML;
-			axios.get(URL + "buscar/" + cod)
-				.then(function (response) {
-					console.log(response);
-					document.querySelector("#idIdPlatillo").value = response.data.idPlatillo;
-					document.querySelector("#idDescripcion").value = response.data.descripcion;
-					document.querySelector("#idPrecio").value = response.data.precio;
-					document.querySelector("#idCategoria").value = response.data.categoria.idCategoria;
-				})
-				.catch(function (error) {
-					console.log(error);
-				})
-
+		
+	//asignar evento click al botón con clase "btn-editar"
+	$(document).on("click",".btn-editar",function(e){
+		//obtener valor del atributo href del botón(etiqueta a) seleccionado.
+		var url=$(this).attr("href");
+		$.get(url,function(response){
+			$("#idIdPlatillo").val(response.id);
+			$("#idDescripcion").val(response.descripcion);
+			$("#idPrecio").val(response.precio);
+			$("#idCategoria").val(response.categoria.id);
 		})
-
-		$(document).on("click", ".btn-eliminar", function (e) {
-			event.preventDefault();
-			let cod = $(this).parents("tr").find("td")[0].innerHTML;
-			swal({
-				title: "¿Seguro de eliminar este Platillo?",
-				text: "",
-				icon: "warning",
-				buttons: true,
-				dangerMode: true,
-				buttons: ["No", "Si"],
-			})
-				.then((willSave) => {
-					if (willSave) {
-						axios.delete(URL + "eliminar/" + cod)
-							.then(function (response) {
-								toastr.success("Registro elimando correctamente", toastr.options = {
-									"timeOut": "2000",
-									"positionClass ": " toast-top-right ",
-								});
-								setTimeout("window.location = 'http://localhost:8095/cliente/platillo/'", 1000);
-							})
-							.catch(function (error) {
-								toastr.success("Error en la eliminación", toastr.options = {
-									"timeOut": "2000",
-									"positionClass ": " toast-top-right ",
-								});
-							})
-					}
-				})
-
-		})
-
-		//asignar evento click al botón con ID "btn-cerrar"
-		$(document).on("click", "#btn-cerrar", function () {
+	})
+	
+	//asignar evento click al botón con clase "btn-eliminar"
+	$(document).on("click",".btn-eliminar",function(e){
+		//indicar por defecto la acción principal del botón(etiqueta a) y anular el atributo href
+		event.preventDefault();
+		//obtener valor del atributo href del botón(etiqueta a) seleccionado.
+		var url=$(this).attr("href");
+		alertify.confirm("SISTEMA","Seguro de eliminar!",
+				  function(){//si
+						window.location=url;
+				  },
+				  function(){//no 
+					alertify.error('Cancelado!')
+				  }).
+				  set('labels', {ok:'Si', cancel:'No'});	
+	})	
+	//asignar evento click al botón con ID "btn-cerrar"
+	$(document).on("click","#btn-cerrar",function(){
 			//reiniciar validación al formulario con ID "idRegistra" 
 			$('#idRegistra').data("bootstrapValidator").resetForm(true);
 			//resetear "limpiar cajas" que existen el formulario con ID "idRegistra"
-			$('#idRegistra').trigger("reset");
+			$('#idRegistra').trigger("reset");	
 			//mostrar en la caja con ID "idCodigo" el valor de "0"
-			$("#idIdPlatillo").val(0);
-		})
-
+			$("#idCodigo").val(0);
+	})
 
 
 

@@ -245,7 +245,7 @@
 
 	<script>
 
-		let URL = "http://localhost:8094/proveedor/";
+		let URL = "http://localhost:8082/proveedor/";
 
 		$('#tableProveedores').DataTable();
 		$(function () {});
@@ -272,7 +272,7 @@
 			event.preventDefault();
 			let cod = $(this).parents("tr").find("td")[0].innerHTML;
 			swal({
-				title: "¿Segur@ de eliminar al proveedor?",
+				title: "¿Seguro de eliminar al proveedor?",
 				text: "",
 				icon: "warning",
 				buttons: true,
