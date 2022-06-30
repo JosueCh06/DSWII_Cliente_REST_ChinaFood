@@ -13,15 +13,16 @@
 	<link rel="stylesheet" th:href="@{/resources/alertifyjs/css/alertify.min.css}">
 	<style>
 		.modal-header,
-	
-h3,
+
+		h3,
 		.close {
-			font-family:Gabriola;
-			color:darkslategray;
-			
+			font-family: Gabriola;
+			color: darkslategray;
+
 			font-size: 50px;
-		
+
 		}
+
 		.help-block {
 			color: red;
 			/*display: none;*/
@@ -111,20 +112,20 @@ h3,
 	<div class="container">
 
 		<h3 class="text-center mt-4">Lista de Proveedores</h3>
-			 <hr color="#e9ecef" size=3>
-			 
-			 <div>
-<img th:src="@{/resources/images/icon-totus.png}" width="300" height="180" style="position: absolute;">
+		<hr color="#e9ecef" size=3>
+
+		<div>
+			<img th:src="@{/resources/images/icon-totus.png}" width="300" height="180" style="position: absolute;">
 		</div>
 		<br>
 		<br>
 		<p align="right">
-		<button type="button" class="btn btn-danger border border-danger" data-toggle="modal" data-target="#modalProveedor"
-			id="btn-nuevo">
-			<i class="far fa-file"></i> Añadir Proveedor
-		</button>
+			<button type="button" class="btn btn-danger border border-danger" data-toggle="modal"
+				data-target="#modalProveedor" id="btn-nuevo">
+				<i class="far fa-file"></i> Añadir Proveedor
+			</button>
 		</p>
-		
+
 		<div class=" mt-5">
 
 			<table class="table table-striped table-dark" id="tableProveedores">
@@ -142,15 +143,16 @@ h3,
 				</thead>
 				<tbody>
 					<tr th:each="bean:${proveedores}">
-						<td th:text="${bean.idProveedor}"></td>
-						<td th:text="${bean.nombre}"></td>
-						<td th:text="${bean.representante}"></td>
-						<td th:text="${bean.celular}"></td>
-						<td th:text="${bean.direccion}"></td>
-						<td th:text="${bean.categoriaProveedor.descripcionCategoriaP}"></td>
-						<td><a class="btn btn-dark btn-editar" data-toggle="modal" data-target="#modalProveedor"><i
-									class="far fa-edit"></i></a></td>
-						<td><a class="btn btn-dark btn-eliminar"><i class="far fa-trash-alt"></i></a></td>
+						<td th:text="${bean.idProveedor}" class="text-center"></td>
+						<td th:text="${bean.nombre}" class="text-center"></td>
+						<td th:text="${bean.representante}" class="text-center"></td>
+						<td th:text="${bean.celular}" class="text-center"></td>
+						<td th:text="${bean.direccion}" class="text-center"></td>
+						<td class="text-center" th:text="${bean.categoriaProveedor.descripcionCategoriaP}"></td>
+						<td class="text-center"><a class="btn btn-dark btn-editar" data-toggle="modal"
+								data-target="#modalProveedor"><i class="far fa-edit"></i></a></td>
+						<td class="text-center"><a class="btn btn-dark btn-eliminar"><i
+									class="far fa-trash-alt"></i></a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -164,7 +166,8 @@ h3,
 						<h4 class="modal-title text-white text-center">Formulario: Proveedor</h4>
 					</div>
 					<div class="modal-body">
-						<form method="POST" id="idRegistra" th:action="@{/cliente/proveedor/grabar}" th:object="${proveedor}">
+						<form method="POST" id="idRegistra" th:action="@{/cliente/proveedor/grabar}"
+							th:object="${proveedor}">
 							<input type="hidden" id="idIdProveedor" name="codigo" value="0" th:field="*{idProveedor}">
 							<div class="container">
 								<div class="row">
@@ -179,7 +182,8 @@ h3,
 										<label for="exampleInputEmail1"><b>Representante</b></label><br>
 										<i class="fas fa-pen-fancy form-control-feedback2"></i>
 										<input type="text" class="form-control form-margin" id="idRepresentante"
-											placeholder="Ingresar representante" name="representante" th:field="*{representante}">
+											placeholder="Ingresar representante" name="representante"
+											th:field="*{representante}">
 									</div>
 
 									<div class="form-group has-feedback col-md-6">
@@ -188,7 +192,7 @@ h3,
 										<input type="text" class="form-control form-margin" id="idCelular"
 											placeholder="Ingresar celular" name="celular" th:field="*{celular}">
 									</div>
-									
+
 									<div class="form-group has-feedback col-md-6">
 										<label for="exampleInputEmail1"><b>Dirección</b></label><br>
 										<i class="fas fa-pen-fancy form-control-feedback2"></i>
@@ -199,9 +203,11 @@ h3,
 									<div class="form-group has-feedback col-md-6">
 										<label for="exampleInputEmail1"><b>Categoria</b></label><br>
 										<i class="fas fa-prescription-bottle-alt form-control-feedback2"></i>
-										<select class="form-control form-margin" name="categoria" id="idCategoria" th:field="*{categoriaProveedor.idCategoriaP}">
+										<select class="form-control form-margin" name="categoria" id="idCategoria"
+											th:field="*{categoriaProveedor.idCategoriaP}">
 											<option value="0">[Seleccione Categoria]</option>
-											<option th:each="bean:${categorias}" th:utext="${bean.descripcionCategoriaP}"
+											<option th:each="bean:${categorias}"
+												th:utext="${bean.descripcionCategoriaP}"
 												th:value="${bean.idCategoriaP}" />
 										</select>
 									</div>
@@ -219,8 +225,8 @@ h3,
 				</div>
 			</div>
 		</div>
-	<//div>
-	<!-- FIN Modal -->
+		</ /div>
+		<!-- FIN Modal -->
 
 	</div>
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

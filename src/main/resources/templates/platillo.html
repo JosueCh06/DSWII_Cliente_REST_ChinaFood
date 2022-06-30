@@ -15,16 +15,16 @@
 
 	<style>
 		.modal-header,
-		
-h3,
+
+		h3,
 		.close {
-			font-family:Gabriola;
-			color:darkslategray;
-			
+			font-family: Gabriola;
+			color: darkslategray;
+
 			font-size: 50px;
-		
+
 		}
-		
+
 		.help-block {
 			color: red;
 			/*display: none;*/
@@ -114,17 +114,17 @@ h3,
 
 		<h3 class="text-center mt-4">Lista de Platillos</h3>
 		<hr color="#e9ecef" size=3>
-<div>
-<img th:src="@{/resources/images/platillo.png}" width="250" height="180" style="position: absolute;">
+		<div>
+			<img th:src="@{/resources/images/platillo.png}" width="250" height="180" style="position: absolute;">
 		</div>
-		
+
 		<br>
 		<br>
 		<p align="right">
-		<button type="button" class="btn btn-danger mt-2" data-toggle="modal" data-target="#modalPlatillo"
-			id="btn-nuevo">
-			<i class="far fa-file"></i> Añadir Platillo
-		</button>
+			<button type="button" class="btn btn-danger mt-2" data-toggle="modal" data-target="#modalPlatillo"
+				id="btn-nuevo">
+				<i class="far fa-file"></i> Añadir Platillo
+			</button>
 		</p>
 		<div class=" mt-5">
 
@@ -144,28 +144,18 @@ h3,
 					<tr th:each="bean:${platillos}">
 						<td th:text="${bean.id}" class="text-center"></td>
 						<td th:switch="${bean.categoria.id}" class="text-center">
-							<span th:case="'1'" ><i class='bx bxs-bowl-rice' style="font-size: 35px;"></i></span>
-							<span th:case="'2'" ><i class='bx bxs-bowl-hot' style="font-size: 35px;" ></i></span>
-							<span th:case="'3'" ><i class='bx bxs-drink' style="font-size: 35px;" ></i></span>
-							<span th:case="'4'" ><i class='bx bxs-cookie' style="font-size: 35px;" ></i></span>
+							<span th:case="'1'"><i class='bx bxs-bowl-rice' style="font-size: 35px;"></i></span>
+							<span th:case="'2'"><i class='bx bxs-bowl-hot' style="font-size: 35px;"></i></span>
+							<span th:case="'3'"><i class='bx bxs-drink' style="font-size: 35px;"></i></span>
+							<span th:case="'4'"><i class='bx bxs-cookie' style="font-size: 35px;"></i></span>
 						</td>
 						<td th:text="${bean.descripcion}" class="text-center"></td>
 						<td th:text="${bean.precio}" class="text-center"></td>
-<<<<<<< HEAD
-						<td th:text="${bean.categoria.descripcionCategoria}" class="text-center"></td>
-						<td class="text-center"><a class="btn btn-dark btn-editar" data-toggle="modal"
-=======
 						<td th:text="${bean.categoria.descripcion}" class="text-center"></td>
-						<td class="text-center"><a th:href="@{buscar/(codigo=${bean.id})}" class="btn btn-info btn-editar" data-toggle="modal"
->>>>>>> refs/heads/main
-								data-target="#modalPlatillo"><i class="far fa-edit"></i></a></td>
-<<<<<<< HEAD
-						<td class="text-center"><a class="btn btn-dark btn-eliminar"><i
+						<td><a th:href="@{buscar/(codigo=${bean.id})}" class="btn btn-dark btn-editar"
+								data-toggle="modal" data-target="#modalPlatillo"><i class="far fa-edit"></i></a></td>
+						<td><a th:href="@{eliminar/(codigo=${bean.id})}" class="btn btn-dark btn-eliminar"><i
 									class="far fa-trash-alt"></i></a></td>
-=======
-						<td class="text-center"><a th:href="@{eliminar/(codigo=${bean.id})}" class="btn btn-danger btn-eliminar"><i
-									class="far fa-trash-alt"></i></a ></td>
->>>>>>> refs/heads/main
 					</tr>
 				</tbody>
 			</table>
@@ -179,7 +169,8 @@ h3,
 						<h4 class="modal-title text-white text-center">Formulario: Platillo</h4>
 					</div>
 					<div class="modal-body">
-						<form method="POST" id="idRegistra" th:action="@{/cliente/platillo/registrar}" th:object="${platillo}">
+						<form method="POST" id="idRegistra" th:action="@{/cliente/platillo/registrar}"
+							th:object="${platillo}">
 							<input type="hidden" id="idIdPlatillo" value="0" th:field="*{id}">
 							<div class="container">
 								<div class="row">
@@ -203,8 +194,7 @@ h3,
 										<select class="form-control form-margin" id="idCategoria"
 											th:field="*{categoria.id}">
 											<option value="0">[Seleccione Categoria]</option>
-											<option th:each="bean:${catPlatillos}"
-												th:utext="${bean.descripcion}"
+											<option th:each="bean:${catPlatillos}" th:utext="${bean.descripcion}"
 												th:value="${bean.id}" />
 										</select>
 									</div>
@@ -265,43 +255,43 @@ h3,
 			//'autoclose': true
 			//});
 		});
-		
-	//asignar evento click al botón con clase "btn-editar"
-	$(document).on("click",".btn-editar",function(e){
-		//obtener valor del atributo href del botón(etiqueta a) seleccionado.
-		var url=$(this).attr("href");
-		$.get(url,function(response){
-			$("#idIdPlatillo").val(response.id);
-			$("#idDescripcion").val(response.descripcion);
-			$("#idPrecio").val(response.precio);
-			$("#idCategoria").val(response.categoria.id);
+
+		//asignar evento click al botón con clase "btn-editar"
+		$(document).on("click", ".btn-editar", function (e) {
+			//obtener valor del atributo href del botón(etiqueta a) seleccionado.
+			var url = $(this).attr("href");
+			$.get(url, function (response) {
+				$("#idIdPlatillo").val(response.id);
+				$("#idDescripcion").val(response.descripcion);
+				$("#idPrecio").val(response.precio);
+				$("#idCategoria").val(response.categoria.id);
+			})
 		})
-	})
-	
-	//asignar evento click al botón con clase "btn-eliminar"
-	$(document).on("click",".btn-eliminar",function(e){
-		//indicar por defecto la acción principal del botón(etiqueta a) y anular el atributo href
-		event.preventDefault();
-		//obtener valor del atributo href del botón(etiqueta a) seleccionado.
-		var url=$(this).attr("href");
-		alertify.confirm("SISTEMA","Seguro de eliminar!",
-				  function(){//si
-						window.location=url;
-				  },
-				  function(){//no 
+
+		//asignar evento click al botón con clase "btn-eliminar"
+		$(document).on("click", ".btn-eliminar", function (e) {
+			//indicar por defecto la acción principal del botón(etiqueta a) y anular el atributo href
+			event.preventDefault();
+			//obtener valor del atributo href del botón(etiqueta a) seleccionado.
+			var url = $(this).attr("href");
+			alertify.confirm("SISTEMA", "Seguro de eliminar!",
+				function () {//si
+					window.location = url;
+				},
+				function () {//no 
 					alertify.error('Cancelado!')
-				  }).
-				  set('labels', {ok:'Si', cancel:'No'});	
-	})	
-	//asignar evento click al botón con ID "btn-cerrar"
-	$(document).on("click","#btn-cerrar",function(){
+				}).
+				set('labels', {ok: 'Si', cancel: 'No'});
+		})
+		//asignar evento click al botón con ID "btn-cerrar"
+		$(document).on("click", "#btn-cerrar", function () {
 			//reiniciar validación al formulario con ID "idRegistra" 
 			$('#idRegistra').data("bootstrapValidator").resetForm(true);
 			//resetear "limpiar cajas" que existen el formulario con ID "idRegistra"
-			$('#idRegistra').trigger("reset");	
+			$('#idRegistra').trigger("reset");
 			//mostrar en la caja con ID "idCodigo" el valor de "0"
 			$("#idCodigo").val(0);
-	})
+		})
 
 
 
