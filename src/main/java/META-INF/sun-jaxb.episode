@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb" if-exists="true" version="2.1">
+      
+    <!--
+
+Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.11 
+Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
+Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+Generado el: 2022.06.30 a las 01:59:49 PM PET 
+
+  -->
+      
+    <bindings xmlns:tns="http://www.cibertec.com/spring/soap/api/servicioPlatillo" if-exists="true" scd="x-schema::tns">
+            
+        <schemaBindings map="false">
+                  
+            <package name="com.cibertec.spring.soap.api.servicioplatillo"/>
+                
+        </schemaBindings>
+            
+        <bindings if-exists="true" scd="tns:getPlatillosRequest">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.GetPlatillosRequest"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:getPlatillosResponse">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.GetPlatillosResponse"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="~tns:platillo">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.Platillo"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:getCategoriasRequest">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.GetCategoriasRequest"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:getCategoriasResponse">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.GetCategoriasResponse"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="~tns:categoria">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.Categoria"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:getPlatilloRequest">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.GetPlatilloRequest"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:getPlatilloResponse">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.GetPlatilloResponse"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:postPlatilloRequest">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.PostPlatilloRequest"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:postPlatilloResponse">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.PostPlatilloResponse"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:updatePlatilloRequest">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.UpdatePlatilloRequest"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:updatePlatilloResponse">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.UpdatePlatilloResponse"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:deletePlatilloRequest">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.DeletePlatilloRequest"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:deletePlatilloResponse">
+                  
+            <class ref="com.cibertec.spring.soap.api.servicioplatillo.DeletePlatilloResponse"/>
+                
+        </bindings>
+          
+    </bindings>
+    
+</bindings>

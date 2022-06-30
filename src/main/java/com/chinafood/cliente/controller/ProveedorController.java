@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 public class ProveedorController {
 
 	//URL
-		private String URL="http://localhost:8094/";
+		private String URL="http://localhost:8082/";
 		
 		@RequestMapping("/")
 		public String index(Model model) {

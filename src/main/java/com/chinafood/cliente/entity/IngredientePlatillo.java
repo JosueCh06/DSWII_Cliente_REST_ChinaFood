@@ -1,5 +1,7 @@
 package com.chinafood.cliente.entity;
 
+import com.cibertec.spring.soap.api.servicioplatillo.Platillo;
+
 public class IngredientePlatillo {
 
 	private IngredientePlatilloPK id;

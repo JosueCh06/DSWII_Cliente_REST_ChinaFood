@@ -1,66 +1,93 @@
 package com.chinafood.cliente.controller;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.chinafood.cliente.entity.CategoriaPlatillo;
-import com.chinafood.cliente.entity.Platillo;
-import com.google.gson.Gson;
+import com.chinafood.cliente.client.SoapCliente;
+import com.cibertec.spring.soap.api.servicioplatillo.Categoria;
+import com.cibertec.spring.soap.api.servicioplatillo.DeletePlatilloRequest;
+import com.cibertec.spring.soap.api.servicioplatillo.GetCategoriasRequest;
+import com.cibertec.spring.soap.api.servicioplatillo.GetPlatilloRequest;
+import com.cibertec.spring.soap.api.servicioplatillo.GetPlatillosRequest;
+import com.cibertec.spring.soap.api.servicioplatillo.Platillo;
+import com.cibertec.spring.soap.api.servicioplatillo.PostPlatilloRequest;
+import com.cibertec.spring.soap.api.servicioplatillo.UpdatePlatilloRequest;
+
 
 @Controller
 @RequestMapping("/cliente/platillo")
 public class PlatilloController {
 
-	private String URL = "http://localhost:8094/";
+	@Autowired
+	private SoapCliente soapCliente;
 
 	@RequestMapping("/")
 	public String index(Model model) {
-		// Crear objeto de la clase RestTemplate para acceder a la ruta del servicio
-		RestTemplate rt = new RestTemplate();
-		// Acceder al servicio con ruta "medicamento/listar"
-		ResponseEntity<Platillo[]> responseMed = rt.getForEntity(URL + "platillo/listar", Platillo[].class);
-		// Acceder al servicio con ruta "laboratorio/listar"
-		ResponseEntity<CategoriaPlatillo[]> responseLab = rt.getForEntity(URL + "categoriaPlatillo/listar",
-				CategoriaPlatillo[].class);
+		GetCategoriasRequest requestC = new GetCategoriasRequest();
+		List<Categoria> listaC = soapCliente.listCategorias(requestC).getLista();
+		GetPlatillosRequest requestP = new GetPlatillosRequest();
+		List<Platillo> listaP = soapCliente.listPlatillos(requestP).getLista();
 		// Crear atributos
-		model.addAttribute("platillos", responseMed.getBody());
-		model.addAttribute("catPlatillos", responseLab.getBody());
+		model.addAttribute("platillos", listaP);
+		model.addAttribute("catPlatillos", listaC);
 		model.addAttribute("platillo", new Platillo());
 		return "platillo";
 	}
-
-	@RequestMapping("/grabar")
-	public String grabar(@ModelAttribute Platillo p, RedirectAttributes redirect) {
-		try {
-			RestTemplate rt = new RestTemplate();
-			// Serializar
-			Gson gson = new Gson();
-			String json = gson.toJson(p);
-			
-			HttpHeaders headers=new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			HttpEntity<String> request=new HttpEntity<String>(json,headers);
-			if(p.getIdPlatillo() == 0) {
-				rt.postForObject(URL+"platillo/registrar", request, String.class);
+	
+	@RequestMapping("/registrar")
+	public String registrar(@ModelAttribute Platillo bean, RedirectAttributes redirect) {
+		if(bean.getId() == 0) {
+			PostPlatilloRequest request = new PostPlatilloRequest();
+			request.setPlatillo(bean);
+			int resultado;
+			resultado = soapCliente.savePlatillo(request).getSalida();
+			if(resultado > 0) 
 				redirect.addFlashAttribute("MENSAJE", "Platillo registrado");
-			}
-			else {
-				rt.put(URL+"platillo/actualizar", request, String.class);
+			else
+				redirect.addFlashAttribute("MENSAJE", "Error en el registro");
+		}else {
+			UpdatePlatilloRequest request = new UpdatePlatilloRequest();
+			request.setPlatillo(bean);
+			int resultado;
+			resultado = soapCliente.updatePlatillo(request).getSalida();
+			if(resultado > 0) 
 				redirect.addFlashAttribute("MENSAJE", "Platillo actualizado");
-			}
-		} catch (Exception e) {
-			redirect.addFlashAttribute("MENSAJE", "Error en la grabación");
-			e.printStackTrace();
+			else
+				redirect.addFlashAttribute("MENSAJE", "Error en la actualización");
 		}
 		return "redirect:/cliente/platillo/";
 	}
+	@RequestMapping("/eliminar")
+	public String eliminar(@RequestParam("codigo") int cod, RedirectAttributes redirect) {
+		DeletePlatilloRequest request = new DeletePlatilloRequest();
+		request.setCodigo(cod);
+		int resultado;
+		resultado = soapCliente.eliminarPlatillo(request).getSalida();
+		if(resultado > 0)
+		    redirect.addFlashAttribute("MENSAJE","Platillo eliminado");
+		else
+			redirect.addFlashAttribute("MENSAJE","Error en la eliminación");                                                                        
+		return "redirect:/cliente/platillo/";
+	}
+	
+	@RequestMapping("/buscar")
+	@ResponseBody
+	public Platillo buscar(@RequestParam("codigo") int cod) {
+		Platillo p = null;
+		GetPlatilloRequest request=new GetPlatilloRequest();
+		request.setCodigo(cod);
+		p = soapCliente.buscarPlatillo(request).getPlatillo();
+		return p;
+
+	}
+
 
 }
